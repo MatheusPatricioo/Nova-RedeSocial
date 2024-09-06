@@ -1,0 +1,52 @@
+-criar layout com html e css
+
+-lista de usuários
+-criar, add, remover  editar usuários.
+-criar, add, remover  editar posts.
+
+------
+
+-Users
+--id
+--email
+--password
+--name
+--birthdate
+--city
+--work
+--avatar
+--cover(capa)
+--token (USUARIO FAZ UM LOGIN
+EU GERO UM RASH ALEATORIO E PEGA ESSA COMBINAÇÃO
+E JOGA NO BD ASSOCIADO AO USUARIO).
+
+-UserRelations
+--id
+-- user_from (relação "de") segue
+--user_to (relação "para") é seguido
+
+-Posts
+--id
+-- type(text,photo)(saber o tipo do post)
+-- created_at
+--body (as inf do post, url etc)
+--like_count
+ 
+-PostComments
+--id
+--id_post (qual post?)
+--id_user (quem comentou?)
+--created_at (quando?)
+--body (corpo do post)
+
+-PostLikes
+--id
+--id_post
+--id_user
+ 
+
+
+
+
+
+
