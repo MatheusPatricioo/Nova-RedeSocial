@@ -1,5 +1,7 @@
 <?php
-class User {
+// Classe que representa um usuário
+class User
+{
     public $id;
     public $email;
     public $password;
@@ -12,7 +14,9 @@ class User {
     public $token;
 }
 
-interface UserDAO {
+// Interface para as operações relacionadas a usuários no banco de dados
+interface UserDAO
+{
     public function findByToken($token);
     public function findByEmail($email);
     public function findById($id);

@@ -1,11 +1,15 @@
 <?php
-class UserRelation {
+// Classe que representa a relação entre usuários (seguidores/seguidos)
+class UserRelation
+{
     public $id;
     public $user_from;
     public $user_to;
 }
 
-interface UserRelationDAO {
+// Interface para as operações relacionadas às relações de usuários no banco de dados
+interface UserRelationDAO
+{
     public function insert(UserRelation $u);
     public function delete(UserRelation $u);
     public function getFollowing($id);

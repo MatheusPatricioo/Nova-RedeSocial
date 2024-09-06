@@ -34,7 +34,8 @@ require 'partials/menu.php';
 
             <div class="feed-pagination">
                 <?php for ($q = 0; $q < $pages; $q++): ?>
-                    <a class="<?= ($q + 1 == $currentPage) ? 'active' : '' ?>" href="<?= $base ?>/?p=<?= $q + 1 ?>"><?= $q + 1 ?></a>
+                    <a class="<?= ($q + 1 == $currentPage) ? 'active' : '' ?>"
+                        href="<?= $base ?>/?p=<?= $q + 1 ?>"><?= $q + 1 ?></a>
                 <?php endfor; ?>
             </div>
 

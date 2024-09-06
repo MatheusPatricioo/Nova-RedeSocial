@@ -1,58 +1,70 @@
 <?php
+// Requer o DAO do usuário para operações com o banco de dados
 require_once 'dao/UserDaoMysql.php';
 
-class Auth {
-    private $pdo;
-    private $base;
-    private $dao;
+// Classe de autenticação para gerenciamento de login e registro
+class Auth
+{
+    private $pdo;   // Conexão com o banco de dados
+    private $base;  // Base URL do sistema
+    private $dao;   // DAO do usuário
 
-    public function __construct(PDO $pdo, $base) {
+    // Construtor que recebe a instância do PDO e a base do sistema
+    public function __construct(PDO $pdo, $base)
+    {
         $this->pdo = $pdo;
         $this->base = $base;
-        $this->dao = new UserDaoMysql($this->pdo);
+        $this->dao = new UserDaoMysql($this->pdo); // Instancia o DAO do usuário
     }
 
-    public function checkToken() {
-        if(!empty($_SESSION['token'])) {
+    // Verifica se há um token de usuário na sessão e o valida
+    public function checkToken()
+    {
+        if (!empty($_SESSION['token'])) {
             $token = $_SESSION['token'];
-
             $user = $this->dao->findByToken($token);
-            
-            if($user) {
+
+            // Retorna o usuário se o token for válido
+            if ($user) {
                 return $user;
             }
         }
 
-        header("Location: ".$this->base."/login.php");
+        // Redireciona para a página de login se o token for inválido
+        header("Location: " . $this->base . "/login.php");
         exit;
     }
 
-    public function validateLogin($email, $password) {
+    // Valida o login do usuário com base no e-mail e senha
+    public function validateLogin($email, $password)
+    {
         $user = $this->dao->findByEmail($email);
-        if($user) {
 
-            if(password_verify($password, $user->password)) {
-                $token = md5(time().rand(0, 9999));
+        // Verifica se o usuário existe e se a senha está correta
+        if ($user && password_verify($password, $user->password)) {
+            $token = md5(time() . rand(0, 9999)); // Gera um novo token
 
-                $_SESSION['token'] = $token;
-                $user->token = $token;
-                $this->dao->update($user);
+            $_SESSION['token'] = $token;
+            $user->token = $token;
+            $this->dao->update($user); // Atualiza o token do usuário no banco
 
-                return true;
-            }
-
+            return true;
         }
 
         return false;
     }
 
-    public function emailExists($email) {
+    // Verifica se o e-mail já está registrado no sistema
+    public function emailExists($email)
+    {
         return $this->dao->findByEmail($email) ? true : false;
     }
 
-    public function registerUser($name, $email, $password, $birthdate) {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $token = md5(time().rand(0, 9999));
+    // Registra um novo usuário no sistema
+    public function registerUser($name, $email, $password, $birthdate)
+    {
+        $hash = password_hash($password, PASSWORD_DEFAULT); // Cria o hash da senha
+        $token = md5(time() . rand(0, 9999)); // Gera um token
 
         $newUser = new User();
         $newUser->name = $name;
@@ -61,9 +73,8 @@ class Auth {
         $newUser->birthdate = $birthdate;
         $newUser->token = $token;
 
-        $this->dao->insert($newUser);
+        $this->dao->insert($newUser); // Insere o novo usuário no banco
 
-        $_SESSION['token'] = $token;
+        $_SESSION['token'] = $token; // Armazena o token na sessão
     }
-
 }
