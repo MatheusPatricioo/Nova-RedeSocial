@@ -1,6 +1,7 @@
 <?php
 session_start();
-$base = 'http://localhost/redeSocial/';
+$base = 'http://localhost/Nova-RedeSocial/';
+// http://localhost:8080/phpmyadmin
 
 $db_name = 'devsbook';
 $db_host = 'localhost';
